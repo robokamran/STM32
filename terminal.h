@@ -16,6 +16,7 @@ https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
 #include "string.h"
 
 #define UART_HANDLE &huart2
+#define DYN_BUFFER_SIZE 256
 
 enum ColorCodes
 {
@@ -32,7 +33,7 @@ enum ColorCodes
 
 static inline void println(const char *format, ...)
 {
-  char buffer[256];
+  char buffer[DYN_BUFFER_SIZE];
   va_list args;
   va_start(args, format);
   int length = vsprintf(buffer, format, args);
@@ -46,7 +47,7 @@ static inline void println(const char *format, ...)
 
 static inline void print(const char *format, ...)
 {
-  char buffer[256];
+  char buffer[DYN_BUFFER_SIZE];
   va_list args;
   va_start(args, format);
   int length = vsprintf(buffer, format, args);
@@ -68,7 +69,7 @@ static inline void t_report(int bg, int fg, const char *format, ...)
   int bg_code = bg == T_Default ? 0 : bg + 40;
   print("\e[%d;%dm", fg_code, bg_code);
 
-  char buffer[256];
+  char buffer[DYN_BUFFER_SIZE];
   va_list args;
   va_start(args, format);
   int length = vsprintf(buffer, format, args);
